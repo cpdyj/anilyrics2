@@ -1,0 +1,44 @@
+
+.actions td{
+    padding: 0 0 ;
+}
+
+.music-list tbody td{
+    padding-top: 0;
+    padding-bottom: 0;
+}
+.music-list tbody td a{
+    color: whitesmoke;
+    display: inline-block;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    width: 100%;
+    height: 100%;
+}
+
+.hover-light:hover{
+    background-color: rgba(255, 255, 255, 0.15);
+    transition: background-color 0.2s ease-in-out;
+}
+.hover-light {
+    background-color: rgba(255, 255, 255, 0);
+    transition: background-color 0.2s ease-in-out;
+}
+.hover-light:active{
+    background-color: rgba(255, 255, 255, 0.3);
+    transition: background-color 0.2s ease-in-out;
+}
+
+.navbar-fixed ul a {
+    background-color: rgba(255, 255, 255, 0);
+    transition: background-color 0.2s ease-in-out;
+}
+.navbar-fixed ul a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transition: background-color 0.2s ease-in-out;
+}
+
+.navbar-fixed ul a:active {
+    background-color: rgba(255, 255, 255, 0.3);
+    transition: background-color 0.2s ease-in-out;
+}

@@ -1,40 +1,37 @@
 import io.vertx.core.Vertx
 import io.vertx.ext.web.Route
 import io.vertx.ext.web.Router
-import io.vertx.ext.web.common.template.TemplateEngine
 import io.vertx.ext.web.handler.BodyHandler
-import io.vertx.ext.web.handler.SessionHandler
-import routeHandler.error500Handler
-import routeHandler.indexHandler
-import routeHandler.rerouteWithHtmlSuffixOrDefault
-import routeHandler.templateHandler
+import routeHandler.*
 
 
-fun createRouter(vertx: Vertx, templateEngine: TemplateEngine, templatePath: String) =
+fun createRouter(vertx: Vertx): Router =
     Router.router(vertx).apply {
-        route("/*").handler(BodyHandler.create(false))
+        route("/*").timing()
         route("/").rerouteTo("/index")
-        route("/index").handler(::indexHandler).rerouteTo("/render/index")
+        route("/*").handler(BodyHandler.create(false))
+        route("/index").handler(::indexHandler).handler(::listHandler).withTemplate("/list")
+        route("/album/:albumName").handler(::albumHandler).handler(::listHandler).withTemplate("/list")
+        route("/category/:categoryName").handler(::categoryHandler).handler(::listHandler).withTemplate("/list")
+        route("/music/:musicId")
+        route("/artist/:artistId").handler(::artistHandler).handler(::listHandler).withTemplate("/list")
 
         route("/close").handler { vertx.close() }
+        route("/451").handler {
+            it.response().statusCode = 451
+            it.response().statusMessage = "Unavailable For Legal Reasons"
+            it.response().putHeader("Link","<https://www.451unavailable.org/>; rel=\"blocked-by\"")
+            it.end()
+        }
 
-        route("/render/*").rerouteWithHtmlSuffixOrDefault().handler { it.put("context",it); it.next() }.handler(templateHandler(templateEngine, templatePath))
-        errorHandler(500,::error500Handler)
+        route("/error/*")
+        errorHandler(500, ::error500Handler)
+        errorHandler(404, ::error404Handler)
+
     }
 
-data class Song(
-    val id: Int = 0,
-    val title: String = "",
-    val album: String = "",
-    val albumId:Int=0,
-    val artist: String = "",
-    val artistId:Int=0,
-    val tags: String = "",
-    val tagId:Int=0,
-    val uploader: String = "",
-    val uploaderId:Int=0
-)
 
 
-fun Route.rerouteTo(path: String) = handler { it.reroute(path) }
+fun Route.rerouteTo(path: String): Route = handler { it.reroute(path) }
+fun Route.redirectTo(path: String): Route = handler { it.redirect(path) }
 

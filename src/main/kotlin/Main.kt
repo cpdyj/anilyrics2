@@ -18,8 +18,8 @@ lateinit var vertx: Vertx
 
 @OptIn(ExperimentalStdlibApi::class)
 suspend fun main() {
-    System.getProperties().put("vertxweb.environment", "dev")
-    System.getProperties().put("io.vertx.ext.web.TemplateEngine.disableCache", "true")
+    System.getProperties()["vertxweb.environment"] = "dev"
+    System.getProperties()["io.vertx.ext.web.TemplateEngine.disableCache"] = "true"
     JsonMapper // initialize Jackson for Kotlin
 
     println("Hello world")

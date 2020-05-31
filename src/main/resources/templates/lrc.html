@@ -1,0 +1,97 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" style="height: 100%">
+
+<head>
+  <!--Import Google Icon Font-->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!--Import materialize.css-->
+  <link type="text/css" rel="stylesheet" href="/static/css/materialize.min.css" media="screen,projection"/>
+  <link type="text/css" rel="stylesheet" href="/static/css/custom.css" media="screen,projection"/>
+  <!--Let browser know website is optimized for mobile-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8"/>
+  <title>AniLyrics</title>
+</head>
+
+<body class="blue-grey darken-3" style="flex-direction: column; display:flex; min-height:100%; color: whitesmoke;">
+
+<div class="navbar-fixed">
+  <nav>
+    <div class="nav-wrapper black">
+      <a href="/" class="brand-logo">AniLyrics</a>
+      <ul class="right hide-on-med-and-down">
+        <li>
+          <div class="input-field inline">
+            <input id="searchBox" type="text" class="validate" style="color: whitesmoke" placeholder="Search...">
+          </div>
+        </li>
+        <li><a><i class="material-icons" title="Search">search</i></a></li>
+        <li><a href="favorite"><i class="material-icons" title="Favorite">favorite</i></a></li>
+        <li><a href="upload"><i class="material-icons" title="Publish">publish</i></a></li>
+        <li th:if="${user==null}"><a href="login"><i class="material-icons" title="Login">account_circle</i></a></li>
+        <li th:if="${user!=null}"><a href="account">Hello, <span class="username" th:text="${user.username}"></span></a>
+        </li>
+        <li th:if="${user!=null}"><a href="logout"><i class="material-icons" title="Logout">exit_to_app</i></a></li>
+      </ul>
+    </div>
+  </nav>
+</div>
+<div class="content container"
+     style="flex:1;display: flex; flex-flow: row nowrap; justify-content: center;align-items: flex-start;">
+  <div style="width: 100%; overflow: auto">
+    <table class="music-list">
+      <thead>
+      <tr>
+        <th>Title</th>
+        <th>Album</th>
+        <th>Artist</th>
+        <th>Category</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="i:${musics}">
+        <td class="hover-light"><a th:attr="href='/music/'+${i.id}" th:text="${i.title}">Title</a></td>
+        <td class="hover-light"><a th:if="${i.album!=''}" th:attr="href='/album/'+${i.album}"
+                                   th:text="${i.album}">Album</a></td>
+        <td class="hover-light"><a th:if="${i.artist!=null}" th:attr="href='/artist/'+${i.artist.first}"
+                                   th:text="${i.artist.second}">Artist</a><a th:if="${i.artist==null}">V.A.</a></td>
+        <td class="hover-light"><a th:attr="href='/category/'+${i.category}" th:text="${i.category}">Tags</a></td>
+      </tr>
+      <tr class="hover-light" th:if="${musics==null || musics.size==0}">
+        <td colspan="5" style="text-align: center">Nothing......</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<footer class="page-footer black">
+  <div class="container">
+    <div class="row">
+      <div class="col l6 s12">
+        <h5 class="white-text">AniLyrics</h5>
+        <p class="grey-text text-lighten-4">Just for fan. All resources by users upload. Shared by MIT & CC
+          License.<br/>If the site violates your rights, please contact us. Thank you.</p>
+      </div>
+      <div class="col l4 offset-l2 s12">
+        <h5 class="white-text">About</h5>
+        <ul>
+          <li><b>Contacts: </b><a class="grey-text text-lighten-3"
+                                  href="mailto:example@example.org">example@example.org</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+<script type="text/javascript" src="/static/js/jquery.js"></script>
+<script type="text/javascript" src="/static/js/materialize.min.js"></script>
+</body>
+<script>$(document).ready(function () {
+    $(".dropdown-trigger").dropdown();
+})</script>
+
+</html>

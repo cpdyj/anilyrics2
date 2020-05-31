@@ -20,18 +20,19 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib", org.jetbrains.kotlin.config.KotlinCompilerVersion.VERSION))
+    implementation(kotlin("reflect"))
+
 
     implementation(vertx("core"))
     implementation(vertx("web"))
     implementation(vertx("config"))
-//    implementation(vertx("config-hocon"))
     implementation(vertx("auth-oauth2"))
     implementation(vertx("lang-kotlin"))
     implementation(vertx("lang-kotlin-coroutines"))
     implementation(vertx("health-check"))
     implementation(vertx("web-templ-thymeleaf"))
     implementation(vertx("redis-client"))
-    compile(vertx("pg-client"))
+    implementation(vertx("pg-client"))
 
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.10.3")
     implementation("org.thymeleaf:thymeleaf:3.0.11.RELEASE")
